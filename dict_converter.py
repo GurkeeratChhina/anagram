@@ -1,4 +1,6 @@
 primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101]
+raw_input = 'google_10000_english.txt'
+processed_input = 'google_10000_english_dict.txt'
 
 # Encodes letters as prime numbers
 # Example usage: letter_to_prime("e") = 11
@@ -17,12 +19,12 @@ def word_to_number(word):
 # Given a list of strings, find a list of possible sentences from anagramming each string
 # Example usage: search_strings(["a", "aber", "aet", "em"]) = 
 # [["a"], ["bear", "bare"], ["ate", "eta", "tea"], ["me"]]
-def search_strings(list_of_strings, dict):
+def search_strings(list_of_strings, english_dict):
     list_of_sentences = []
     for string in list_of_strings:
         key = word_to_number(string)
         try:
-            values = dict[key]
+            values = english_dict[key]
             list_of_sentences.append(values)
         except:
             return []
@@ -52,7 +54,7 @@ def concatenate_strings(list_of_substrings):
 # import the raw list of english words to a dictionary
 def import_raw_to_dict():
     word_dict={}
-    with open('words_alpha.txt') as file:
+    with open(raw_input) as file:
         for line in file:
             value = line.strip().lower()
             key = word_to_number(value)
@@ -62,7 +64,7 @@ def import_raw_to_dict():
 # import processed list of english words to a dictionary
 def import_dict_to_dict():
     word_dict={}
-    with open('words_alpha_dict.txt') as file:
+    with open(processed_input) as file:
         for line in file:
             [skey,values] = line.strip().split(":")
             key= skey.int()
@@ -72,7 +74,7 @@ def import_dict_to_dict():
 
 # export the dictionary into a processed list of words
 def export_dict(dictionary):
-    with open('words_alpha_dict.txt', "a") as file:
+    with open(processed_input, "a") as file:
         for key in dictionary:
             string = str(key)+":"
             for word in dictionary[key]:
@@ -112,7 +114,7 @@ if __name__ == '__main__':
         list_of_substrings = [list(string)]
         lists_of_sentences = []
         while(n>1):
-            lists_of_sentences += [search_strings(substring) for substring in list_of_substrings if search_strings(substring) != []]
+            lists_of_sentences += [search_strings(substring, word_dict) for substring in list_of_substrings if search_strings(substring, word_dict) != []]
             list_of_substrings = concatenate_strings(list_of_substrings)
             n -= 1
         print("Sentences found:")

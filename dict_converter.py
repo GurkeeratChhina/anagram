@@ -38,14 +38,14 @@ def search_strings(list_of_strings, dict):
 # [ ["abcdef", "gh"], ["abcgh", "def"], ["abc", "defgh"], ["ijklm", "nop"], ["ijknop", "lm"], ["ijk", "lmnop"] ]
 # TODO: Look into representing a substring as a dictionary or collections.counter
 def concatenate_strings(list_of_substrings):
-    output = []
+    output = set()
     for substring in list_of_substrings:
         n = len(substring)
         for i in range(0,n):
             for j in range (i+1, n):
-                new_list = sorted(substring[0:i] + [substring[i] + substring[j]] + substring[i+1:j] + substring[j+1:n])
-                output.append(new_list)
-    return output
+                new_list = substring[0:i] + [substring[i] + substring[j]] + substring[i+1:j] + substring[j+1:n]
+                output.add(tuple(sorted(new_list)))
+    return [list(x) for x in output]
 
 
 # TODO: move import/export functions to a seperate file maybe?

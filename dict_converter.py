@@ -1,3 +1,5 @@
+import time
+
 primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101]
 raw_input = 'google_10000_english.txt'
 processed_input = 'google_10000_english_dict.txt'
@@ -66,7 +68,7 @@ def import_dict_to_dict(file_name):
     with open(file_name) as file:
         for line in file:
             [skey,values] = line.strip().split(":")
-            key= skey.int()
+            key= int(skey)
             value = [word for word in values.split(",")]
             word_dict[key] = value
     return word_dict
@@ -81,8 +83,23 @@ def export_dict(file_name, dictionary):
             string = string.strip(",") + "\n"
             file.write(string)
 
+def time_function(fun, *args, amount):
+    start = time.perf_counter()
+    for i in range(amount):
+        fun(*args)
+    end = time.perf_counter()
+    return end-start
+
+
 # This is all basically manually testing xd
 if __name__ == '__main__':
+    time1 = time_function(import_raw_to_dict, "words_alpha.txt", amount=100)
+    time2 = time_function(import_raw_to_dict, "google_10000_english.txt", amount=100)
+    print("The time it took to run raw to dict 100 times is", time1, "and", time2)
+    time3 = time_function(import_dict_to_dict, "words_alpha_dict.txt", amount=100)
+    time4 = time_function(import_dict_to_dict, "google_10000_english_dict.txt", amount=100)
+    print("The time it took to run dict to dict 100 times is", time3, "and", time4)
+
     print("Importing dictionary, please wait...")
     # TODO: Check if importing raw or importing dict is faster
     # Dictionary format: {number: [list of words]}
@@ -103,8 +120,7 @@ if __name__ == '__main__':
             continue
         try:
             values = word_dict[key]
-            print("Here is a list of possible words your string could be:", end = " ")
-            print(values)
+            print("Here is a list of possible words your string could be:", values)
         except:
             print("No words were found!")
         
@@ -114,7 +130,7 @@ if __name__ == '__main__':
         list_of_substrings = [list(string)]
         lists_of_sentences = []
         while(n>1):
-            lists_of_sentences += [search_strings(substring, word_dict) for substring in list_of_substrings if search_strings(substring, word_dict) != []]
+            lists_of_sentences += [search_strings(substring, word_dict) for substring in list_of_substrings if search_strings(substring, word_dict)]
             list_of_substrings = concatenate_strings(list_of_substrings)
             n -= 1
         print("Sentences found:")

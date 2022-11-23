@@ -1,7 +1,7 @@
 import time
 
 primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101]
-raw_input = 'google_10000_english.txt'
+raw_input = 'mit_10000.txt'
 
 # Encodes letters as prime numbers
 # Example usage: letter_to_prime("e") = 11

@@ -112,8 +112,7 @@ if __name__ == '__main__':
         list_of_substrings = [list(string)]
         lists_of_sentences = []
         while(n>1):
-            for substring in list_of_substrings:
-                lists_of_sentences.append(search_strings(substring, word_dict))
+            lists_of_sentences += [search_strings(substring) for substring in list_of_substrings if search_strings(substring) != []]
             list_of_substrings = concatenate_strings(list_of_substrings)
             n -= 1
         print("Sentences found:")

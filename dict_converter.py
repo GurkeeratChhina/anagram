@@ -81,6 +81,7 @@ def export_dict(file_name, dictionary):
             string = string.strip(",") + "\n"
             file.write(string)
 
+# This is all basically manually testing xd
 if __name__ == '__main__':
     print("Importing dictionary, please wait...")
     # TODO: Check if importing raw or importing dict is faster
